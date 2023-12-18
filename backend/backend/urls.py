@@ -22,6 +22,7 @@ from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('cadastro/', include('cadastro.urls')),
+    path('users/', include('users.urls')),
     path('api-auth/', include('rest_framework.urls')),
 ]
 
