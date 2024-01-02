@@ -41,7 +41,6 @@ INSTALLED_APPS = [
     'users',
     'dashboards',
     'environmental',
-    'farms',
     'finances',
     'litec',
     'services',
