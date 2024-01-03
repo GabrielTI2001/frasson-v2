@@ -1,31 +1,41 @@
 import { Outlet} from "react-router-dom";
-import {Navbar} from 'react-bootstrap'
 import { Helmet } from "react-helmet";
 import Menu from "./menu.js";
+import "../../assets/css/oneui.css"
+import "../../assets/css/index.css"
+
 function Landing() {
   const menus = [
-  {'label': 'Menu1', 
-   'submenus': [
-      {'label': 'submenu1'}, 
-      {'label': 'submenu2'}]
-  },
-  {'label': 'Menu2', 
-   'submenus': [{'label': 'submenu1', 'path':''}, {'label': 'submenu2'}]},
-  {'label': 'Menu3', 
-   'submenus': [{'label': 'submenu1'}, {'label': 'submenu2'}]}
+    {'title': 'Operacional', 'icon':'fa-solid fa-gear', 'submenus':[
+      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+      {'title': 'submenu2', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+      {'title': 'submenu3', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]}
+    ]},
+    {'title': 'Crédit Rural', 'icon':'fa-solid fa-gear', 'submenus':[
+      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+      {'title': 'submenu2', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]}
+    ]},
+    {'title': 'Ambiental', 'icon':'fa-solid fa-gear', 'submenus':[
+      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+    ]},
+    {'title': 'Serviços', 'icon':'fa-solid fa-gear', 'submenus':[
+      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+    ]},
+    {'title': 'Adm & Fin', 'icon':'fa-solid fa-gear', 'submenus':[
+      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+    ]},
+    {'title': 'Admin', 'icon':'fa-solid fa-gear', 'submenus':[
+      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+    ]},
   ] 
   return (
-    <div>
+    <div className="content p-2">
       <Helmet>
         <meta charSet="utf-8"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
           rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin='anonymous'/>
       </Helmet>
-      <Navbar id="header" className="row">
-        {menus.map(menu => (
-          <Menu item={menu}></Menu>
-        ))}
-      </Navbar>
+      <Menu item={menus}></Menu>
       <Outlet/>
     </div>
     );
