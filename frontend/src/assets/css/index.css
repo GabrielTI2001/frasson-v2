@@ -3,4 +3,12 @@ a{
 }
 .menu{
     padding-left: 5px !important;
+    font-weight: bold;
 }
+body{
+    margin: 0;
+    padding: 0 !important;
+}
+/* #horizontal-navigation-hover-normal-dark{
+    justify-content: space-between !important;
+} */

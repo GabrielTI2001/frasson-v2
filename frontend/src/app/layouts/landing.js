@@ -1,5 +1,4 @@
 import { Outlet} from "react-router-dom";
-import { Helmet } from "react-helmet";
 import Menu from "./menu.js";
 import "../../assets/css/oneui.css"
 import "../../assets/css/index.css"
@@ -7,34 +6,30 @@ import "../../assets/css/index.css"
 function Landing() {
   const menus = [
     {'title': 'Operacional', 'icon':'fa-solid fa-gear', 'submenus':[
-      {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
-      {'title': 'submenu2', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
-      {'title': 'submenu3', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]}
+      {'title': 'Análise e Processamento', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+      {'title': 'Processos Operacionais', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+      {'title': 'LITEC', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
+      {'title': 'Comprovações e Alongamentos', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
     ]},
-    {'title': 'Crédit Rural', 'icon':'fa-solid fa-gear', 'submenus':[
+    {'title': 'Crédito Rural', 'icon':'fa fa-money-bill', 'submenus':[
       {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
       {'title': 'submenu2', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]}
     ]},
-    {'title': 'Ambiental', 'icon':'fa-solid fa-gear', 'submenus':[
+    {'title': 'Ambiental', 'icon':'fa fa-leaf', 'submenus':[
       {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
     ]},
-    {'title': 'Serviços', 'icon':'fa-solid fa-gear', 'submenus':[
+    {'title': 'Serviços', 'icon':'fa fa-wrench', 'submenus':[
       {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
     ]},
-    {'title': 'Adm & Fin', 'icon':'fa-solid fa-gear', 'submenus':[
+    {'title': 'Adm & Fin', 'icon':'fa fa-coins', 'submenus':[
       {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
     ]},
-    {'title': 'Admin', 'icon':'fa-solid fa-gear', 'submenus':[
+    {'title': 'Admin', 'icon':'fa-solid fa-key', 'submenus':[
       {'title': 'submenu1', 'subsubs':[{'title': 'subsub1'}, {'title': 'subsub2'}]},
     ]},
   ] 
   return (
-    <div className="content p-2">
-      <Helmet>
-        <meta charSet="utf-8"/>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" 
-          rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossOrigin='anonymous'/>
-      </Helmet>
+    <div className="content p-0">
       <Menu item={menus}></Menu>
       <Outlet/>
     </div>
