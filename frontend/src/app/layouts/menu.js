@@ -5,7 +5,7 @@ import logo from "../../assets/media/various/logo-frasson-app.png";
 function Menu({item}) {
   return (
     <div className="bg-sidebar-dark p-2 row push">
-      <div id="horizontal-navigation-hover-justified-dark" className="d-none d-lg-flex mt-2 mt-lg-0 col">
+      <div id="horizontal-navigation-hover-justified-dark" className="d-none d-lg-flex mt-2 mt-lg-0">
         <ul className="nav-main nav-main-horizontal nav-main-hover nav-main-dark">
           <li className="nav-main-item">
             <a className="nav-main-link active" href="">

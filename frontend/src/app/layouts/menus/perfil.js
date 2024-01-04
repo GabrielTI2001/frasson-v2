@@ -1,5 +1,6 @@
 function Perfil() {
     return (
+    <div className="ms-auto">
     <div class="d-flex align-items-center col">
         <div class="dropdown d-inline-block ms-2">
           <button type="button" class="btn btn-sm btn-alt-light d-flex align-items-center shadow-none text-dark" style={{'border-color': 'rgba(185, 198, 202, 1);'}}
@@ -40,6 +41,7 @@ function Perfil() {
             </div>
           </div>
         </div>
+      </div>
       </div>
     );
   }

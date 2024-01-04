@@ -1,7 +1,8 @@
 import Itemsmenu from "./itemsmenu";
 function Submenus({submenus}) {
     return (
-      <ul className="nav-main-submenu">
+      <div className="ms-auto">
+      <ul className="nav-main-submenu mr-0">
         {submenus.map(sub => (
           <li className="nav-main-item" key={sub.title}>
             <a className="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
@@ -12,6 +13,7 @@ function Submenus({submenus}) {
           </li>        
           ))}
       </ul>
+      </div>
     );
   } 
 export default Submenus;
