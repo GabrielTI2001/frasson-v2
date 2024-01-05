@@ -14,7 +14,7 @@ function Menu({item}) {
           </li>
           {item.map(menu => (
            <li className="nav-main-item" key={menu.title}>
-             <a className="nav-main-link menu nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="#">
+             <a className="nav-main-link menu nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true" aria-expanded="false" href="">
               <i className={"nav-main-link-icon "+menu.icon}></i>
               <span className="nav-main-link-name">{menu.title}</span>
              </a>
