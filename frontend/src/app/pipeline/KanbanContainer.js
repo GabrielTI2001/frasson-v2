@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import KanbanColumn from './KanbanColumn';
-// import api from 'data/kanban2';
+import api from '../../context/data';
 // import KanbanModal from './KanbanModal';
 import { DragDropContext } from 'react-beautiful-dnd';
 import IconButton from '../../components/common/IconButton';
@@ -10,8 +10,6 @@ import AddAnotherFase from './AddAnotherFase';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 library.add(faPlus);
-
-
 
 const KanbanContainer = () => {
   const {
@@ -25,27 +23,26 @@ const KanbanContainer = () => {
   const handleSubmit = listData => {
     const listId = Math.max(...fases.map(fase => fase.idfase)) + 1;
     const newList = {
-      idfase: listId,
-      ordem: listId,
-      pipe: kanbanState.pipe.idpipe,
+      id: listId,
+      pipe: kanbanState.pipe.id,
       descricao: listData.title,
-      card_set: [],
-      done: 0
+      card_produtos_set: [],
+      created_at: "2024-01-05T11:02:49"
     };
     const isEmpty = !Object.keys(listData).length;
 
     if (!isEmpty) {
-      // api.post('/fases/', newList)
+      kanbanDispatch({
+        type: 'ADD_KANBAN_COLUMN',
+        payload: newList
+      });
+      // api.post('/pipeline/fases/', newList)
       // .then((response) => {
-      //   kanbanDispatch({
-      //     type: 'ADD_KANBAN_COLUMN',
-      //     payload: newList
-      //   });
       // })
       // .catch((erro) => {
       //   console.error('erro: '+erro);
       // })
-      // setShowForm(false);
+      setShowForm(false);
     }
   };
 

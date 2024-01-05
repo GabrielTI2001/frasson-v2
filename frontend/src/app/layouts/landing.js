@@ -7,7 +7,7 @@ function Landing() {
   const menus = [
     {'title': 'Operacional', 'icon':'fa-solid fa-gear', 'submenus':[
       {'title': 'Análise e Processamento', 'subsubs':[
-        {'title': 'Cadastros Gerais', 'link':'', 'icon':'bi bi-funnel-fill'}, 
+        {'title': 'Cadastros Gerais', 'link':'/register', 'icon':'bi bi-funnel-fill'}, 
         {'title': 'Regimes de Exploração', 'link':'', 'icon':'bi bi-gear-fill'}, 
         {'title': 'Imóveis Rurais', 'link':'', 'icon':'bi bi-signpost-fill'}
       ]},
