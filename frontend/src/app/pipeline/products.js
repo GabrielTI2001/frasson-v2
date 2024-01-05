@@ -1,8 +1,12 @@
+import KanbanProvider from "./KanbanProvider";
+import KanbanContainer from "./KanbanContainer";
+
 function Products() {
     return (
-      <div>
-        Products
-      </div>
+      <KanbanProvider>
+        <div>Products</div>
+        <KanbanContainer/>
+      </KanbanProvider>
     );
   }
   export default Products;
