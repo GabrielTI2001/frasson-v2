@@ -1,7 +1,33 @@
 from django.db import models
+import uuid
+
+class Pipe(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    descricao = models.CharField(max_length=255, null=False, blank=False, verbose_name='Descricao  Pipe')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name_plural = 'Pipe'
+    def __str__(self):
+        return self.descricao
+
+
+class Fase(models.Model):
+    id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
+    pipe = models.ForeignKey(Pipe, on_delete=models.CASCADE)
+    descricao = models.CharField(max_length=255, null=False, blank=False, verbose_name='Nome Fase')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    class Meta:
+        verbose_name_plural = 'Fases'
+    def __str__(self):
+        return self.descricao
 
 class Grupos_Clientes(models.Model):
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     nome_grupo = models.CharField(max_length=255, null=False, blank=False, verbose_name='Nome Grupo')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -12,6 +38,7 @@ class Grupos_Clientes(models.Model):
 
 class Cadastro_Pessoal(models.Model): 
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     razao_social = models.CharField(max_length=255, null=True, verbose_name='Nome ou Razão Social')
     natureza = models.CharField(max_length=10, null=True, verbose_name='Natureza Jurídica')
     cpf_cnpj = models.CharField(max_length=30, null=True, verbose_name='CPF ou CNPJ')
@@ -48,6 +75,7 @@ class Cadastro_Pessoal_Info(models.Model):
     
 class Contratos_Servicos(models.Model):
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     contratante = models.ForeignKey(Cadastro_Pessoal, on_delete=models.SET_NULL, null=True, verbose_name='Contratante')
     demais_membros = models.TextField(null=True, verbose_name='Demais Membros')
     servicos_contratados = models.TextField(null=True, verbose_name='Serviços Contratados')
@@ -67,6 +95,7 @@ class Contratos_Servicos(models.Model):
     
 class Detalhamento_Servicos(models.Model):
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     produto = models.CharField(max_length=255, null=True)
     detalhamento_servico = models.CharField(max_length=255, null=True)
     created_at = models.DateTimeField(null=True)
@@ -78,6 +107,7 @@ class Detalhamento_Servicos(models.Model):
 
 class Instituicoes_Razao_Social(models.Model): 
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     razao_social = models.CharField(max_length=255, null=True, verbose_name='Razão Social')
     cnpj = models.CharField(max_length=255, null=True, verbose_name='CNPJ')
     tipo_instituicao = models.CharField(max_length=255, null=True, verbose_name='Tipo Instituição')
@@ -93,6 +123,7 @@ class Instituicoes_Razao_Social(models.Model):
 
 class Instituicoes_Parceiras(models.Model): 
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     instituicao = models.ForeignKey(Instituicoes_Razao_Social, on_delete=models.SET_NULL, null=True)
     identificacao  = models.CharField(max_length=255, null=True)
     record_url = models.CharField(max_length=255, null=True) 
@@ -103,8 +134,9 @@ class Instituicoes_Parceiras(models.Model):
     def __str__(self):
         return self.instituicao.razao_social     
     
-class Pipe_Produtos(models.Model):
+class Card_Produtos(models.Model):
     id = models.BigIntegerField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     card = models.CharField(max_length=255, null=True, verbose_name='Tipo Card')
     beneficiario = models.ManyToManyField(Cadastro_Pessoal, verbose_name='Nome Beneficiário')
     detalhamento = models.ForeignKey(Detalhamento_Servicos, on_delete=models.SET_NULL, null=True, verbose_name='Detalhamento Serviço')
@@ -112,12 +144,11 @@ class Pipe_Produtos(models.Model):
     contrato = models.ForeignKey(Contratos_Servicos, on_delete=models.SET_NULL, null=True, verbose_name='Contrato Serviço')
     valor_operacao = models.DecimalField(max_digits=15, decimal_places=2, null=True, verbose_name='Valor da Operação')
     faturamento_estimado = models.DecimalField(max_digits=15, decimal_places=2, null=True, verbose_name='Faturamento Estimado')
-    phase_id = models.BigIntegerField(null=True, verbose_name='Id da Fase Atual')
-    phase_name = models.CharField(max_length=255, null=True, verbose_name='Nome da Fase Atual')
+    phase = models.ForeignKey(Fase, on_delete=models.CASCADE, null=True, verbose_name='Fase')
     card_url = models.CharField(max_length=255, null=True, verbose_name='URL do Card')
     created_at = models.DateTimeField(null=True)
     updated_at = models.DateTimeField(null=True)
     class Meta:
         verbose_name_plural = 'Produtos Frasson'
     def __str__(self):
-        return self.beneficiario.razao_social
+        return self.detalhamento.detalhamento_servico
