@@ -4,6 +4,6 @@ from pipeline import views
 from rest_framework import routers
 
 router = routers.DefaultRouter()
-router.register(r'pipes/produtos', views.FaseView)
+router.register(r'pipes/produtos', views.PipeView)
 urlpatterns = []
 urlpatterns += router.urls
