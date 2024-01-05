@@ -19,11 +19,11 @@ from django.urls import path, include
 from cadastro import views
 from rest_framework import routers
 
-router = routers.DefaultRouter()
-router.register(r'pessoal', views.PessoalView)
+# router = routers.DefaultRouter()
+# router.register(r'pessoal', views.PessoalView)
 
 
 urlpatterns = [
     
 ]
-urlpatterns += router.urls
+# urlpatterns += router.urls

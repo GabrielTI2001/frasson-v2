@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'environmental',
     'finances',
     'litec',
+    'pipeline',
     'services',
     'django.contrib.admin',
     'django.contrib.auth',
