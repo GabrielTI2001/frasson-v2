@@ -93,28 +93,38 @@ const TaskCard = ({
               <div className="position-relative">
                 <TaskDropMenu id={task.id} />
               </div>
-              <h6 style={{'fontSize':'16px'}}
-                className="mb-2 fw-medium font-sans-serif fs-9 stretched-link"
-                dangerouslySetInnerHTML={{ __html: task.uuid }}
-              />
+              {task.detalhamento && (
+                <h6 style={{'fontSize':'16px'}}
+                  className="mb-2 fw-medium font-sans-serif fs-9 stretched-link"
+                  dangerouslySetInnerHTML={{ __html: task.detalhamento.produto }}/>
+              )}
+
               <div className='mb-1'>
                 <label className='mb-0'>Nº Processo</label><br></br>
                 {/* <span>{task.processo}</span> */}
               </div>
               <div className='mb-1'>
-                <label className='mb-0'>Detalhamento de serviço</label><br></br>
-                {/* {task.detalheservico && (
-                      <p className="text-word-break fs--1 mb-0">{task.detalheservico.descricao}</p>
-                    )} */}
+                <label className='mb-0'>Card</label><br></br>
+                <span>{task.card}</span>
+              </div>
+              <div className='mb-1'>
+                <label className='mb-0'>Beneficiário</label><br></br>
+                {task.beneficiario && (
+                      <p className="text-word-break fs--1 mb-0">{task.beneficiario[0].razao_social}</p>
+                )}
+              </div>
+              <div className='mb-1'>
+                <label className='mb-0'>Data Abertura</label><br></br>
+                <span>{task.created_at}</span>
               </div>
               <div className='mb-1'>
                 <label className='mb-0'>Valor Operação</label><br></br>
                 {/* <span>{task.valor}</span> */}
               </div>
-              <div className='mb-1'>
-                <label className='mb-0'>Vencimento em </label>
-                {/* <span> {task.prazovenc}</span> */}
-              </div>
+              {/* <div className='mb-1'>
+                  <label className='mb-0'>Vencimento em </label>
+                  <span> {task.prazovenc}</span>
+              </div> */}
             </Card.Body>
           </Card>
         </div>

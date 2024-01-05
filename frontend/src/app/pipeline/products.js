@@ -3,7 +3,7 @@ import KanbanContainer from "./KanbanContainer";
 
 function Products() {
     return (
-      <KanbanProvider>
+      <KanbanProvider id={1}>
         <div>Products</div>
         <KanbanContainer/>
       </KanbanProvider>
