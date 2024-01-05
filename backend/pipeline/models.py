@@ -103,7 +103,7 @@ class Instituicoes_Parceiras(models.Model):
     def __str__(self):
         return self.instituicao.razao_social     
     
-class Produtos_Frasson(models.Model):
+class Pipe_Produtos(models.Model):
     id = models.BigIntegerField(primary_key=True)
     card = models.CharField(max_length=255, null=True, verbose_name='Tipo Card')
     beneficiario = models.ManyToManyField(Cadastro_Pessoal, verbose_name='Nome Beneficiário')
