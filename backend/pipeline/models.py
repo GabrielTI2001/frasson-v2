@@ -14,7 +14,7 @@ class Pipe(models.Model):
 
 
 class Fase(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     pipe = models.ForeignKey(Pipe, on_delete=models.CASCADE)
     descricao = models.CharField(max_length=255, null=False, blank=False, verbose_name='Nome Fase')
@@ -135,7 +135,7 @@ class Instituicoes_Parceiras(models.Model):
         return self.instituicao.razao_social     
     
 class Card_Produtos(models.Model):
-    id = models.BigIntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     uuid = models.UUIDField(default=uuid.uuid4, unique=True, editable=False)
     card = models.CharField(max_length=255, null=True, verbose_name='Tipo Card')
     beneficiario = models.ManyToManyField(Cadastro_Pessoal, verbose_name='Nome Beneficiário')

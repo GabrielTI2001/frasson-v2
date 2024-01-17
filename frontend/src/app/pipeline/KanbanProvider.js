@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { PipeContext } from '../../context/Context';
 // import currentUserAvatar from 'assets/img/team/3.jpg';
 //import { pipes } from 'data/kanban2';
-import { kanbanReducer } from '../../reducers/kanbanReducer';
+import { kanbanReducer } from '../../reducers/pipeproductReducer';
 // import { data } from '../../context/data';
 
 const KanbanProvider = ({ children, id }) => {

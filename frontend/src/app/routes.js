@@ -6,7 +6,7 @@ import Landing from "./layouts/landing.js"
 import FeedbackNew from "./register/feedback-new.js";
 import Appo from "./environmental/appo.js";
 import Outorgas from "./environmental/outorgas.js";
-import Products from "./pipeline/products.js";
+import Products from "./pipeline/products/products.js";
 
 function FrassonRoutes() {
     return (

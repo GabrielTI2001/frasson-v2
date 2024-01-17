@@ -5,7 +5,8 @@ from rest_framework import routers
 
 router = routers.DefaultRouter()
 router.register(r'pipes/produtos', views.PipeView)
-router.register(r'fases/', views.FasesView)
+router.register(r'fases', views.FasesView)
+router.register(r'cards/produtos', views.Card_ProdutosView)
 
 urlpatterns = []
 urlpatterns += router.urls

@@ -1,12 +1,12 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
-import KanbanColumn from './KanbanColumn';
-import api from '../../context/data';
-// import KanbanModal from './KanbanModal';
+import KanbanColumn from '../KanbanColumn';
+import api from '../../../context/data';
+import KanbanModal from '../KanbanModal';
 import { DragDropContext } from 'react-beautiful-dnd';
-import IconButton from '../../components/common/IconButton';
+import IconButton from '../../../components/common/IconButton';
 import is from 'is_js';
-import { PipeContext } from '../../context/Context';
-import AddAnotherFase from './AddAnotherFase';
+import { PipeContext } from '../../../context/Context';
+import AddAnotherFase from '../AddAnotherFase';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 library.add(faPlus);
@@ -21,28 +21,27 @@ const KanbanContainer = () => {
   const fases = kanbanState.fases;
 
   const handleSubmit = listData => {
-    const listId = Math.max(...fases.map(fase => fase.idfase)) + 1;
+    const listId = Math.max(...fases.map(fase => fase.id)) + 1;
     const newList = {
-      id: listId,
       pipe: kanbanState.pipe.id,
       descricao: listData.title,
       card_produtos_set: [],
-      created_at: "2024-01-05T11:02:49"
-    };
+    }
     const isEmpty = !Object.keys(listData).length;
 
     if (!isEmpty) {
-      kanbanDispatch({
-        type: 'ADD_KANBAN_COLUMN',
-        payload: newList
-      });
-      // api.post('/pipeline/fases/', newList)
-      // .then((response) => {
-      // })
-      // .catch((erro) => {
-      //   console.error('erro: '+erro);
-      // })
-      setShowForm(false);
+
+      api.post('/pipeline/fases/', newList)
+      .then((response) => {
+        kanbanDispatch({
+          type: 'ADD_KANBAN_COLUMN',
+          payload: response.data
+        });
+        setShowForm(false);
+      })
+      .catch((erro) => {
+        console.error('erro: '+erro);
+      })
     }
   };
 
@@ -63,7 +62,7 @@ const KanbanContainer = () => {
 
   const getColumn = id => {
     if (fases){
-      return fases.find(fase => fase.idfase == Number(id))
+      return fases.find(fase => fase.id == Number(id))
     }
     else{
       return null;
@@ -80,8 +79,8 @@ const KanbanContainer = () => {
   };
 
   const move = (source, destination) => {
-    const sourceItemsClone = [...getColumn(source.droppableId).card_set];
-    const destItemsClone = [...getColumn(destination.droppableId).card_set];
+    const sourceItemsClone = [...getColumn(source.droppableId).card_produtos_set];
+    const destItemsClone = [...getColumn(destination.droppableId).card_produtos_set];
 
     const [removedItem] = sourceItemsClone.splice(source.index, 1);
     destItemsClone.splice(destination.index, 0, removedItem);
@@ -100,7 +99,7 @@ const KanbanContainer = () => {
     }
 
     if (source.droppableId === destination.droppableId) {
-      const items = getColumn(source.droppableId).card_set;
+      const items = getColumn(source.droppableId).card_produtos_set;
       const column = getColumn(source.droppableId);
       const reorderedItems = reorderArray(
         items,
@@ -117,24 +116,23 @@ const KanbanContainer = () => {
       const destColumn = getColumn(destination.droppableId);
 
       const movedItems = move(source, destination);
-      var idcard = getColumn(source.droppableId).card_set[source.index].idcard
-
-      // api.put(`update/card/${idcard}/`, {'fase':destColumn.idfase})
-      // .then((response) => {
-      //   kanbanDispatch({
-      //     type: 'UPDATE_DUAL_COLUMN',
-      //     payload: {
-      //       idcard,
-      //       sourceColumn,
-      //       updatedSourceItems: movedItems.updatedSourceItems,
-      //       destColumn,
-      //       updatedDestItems: movedItems.updatedDestItems
-      //     }
-      //   });
-      // })
-      // .catch((erro) => {
-      //   console.error('erro: '+erro);
-      // })
+      var idcard = getColumn(source.droppableId).card_produtos_set[source.index].id
+      api.put(`pipeline/cards/produtos/${idcard}/`, {'phase':destColumn.id})
+      .then((response) => {
+        kanbanDispatch({
+          type: 'UPDATE_DUAL_COLUMN',
+          payload: {
+            idcard,
+            sourceColumn,
+            updatedSourceItems: movedItems.updatedSourceItems,
+            destColumn,
+            updatedDestItems: movedItems.updatedDestItems
+          }
+        });
+      })
+      .catch((erro) => {
+        console.error('erro: '+erro);
+      })
     }
   };
 
@@ -169,7 +167,7 @@ const KanbanContainer = () => {
               </IconButton>
             )}
           </div>
-         {/* <KanbanModal show={kanbanState.kanbanModal.show}/> */}
+         <KanbanModal show={kanbanState.kanbanModal.show}/>
         </div>
       </DragDropContext>
     );

@@ -46,7 +46,7 @@ export const kanbanReducer = (state, action) => {
         ...state,
         fases: state.fases.map(fase =>
           fase.idfase === payload.targetListId
-            ? { ...fase, card_set: [...fase.card_set, payload.novocard] }
+            ? { ...fase, card_produtos_set: [...fase.card_produtos_set, payload.novocard] }
             : fase
         )
       };
@@ -57,7 +57,7 @@ export const kanbanReducer = (state, action) => {
         fases: state.fases.map(f => {
           return {
             ...f,
-            card_set: f.card_set.filter(card => card.idcard !== payload.idcard)
+            card_set: f.card_produtos_set.filter(card => card.id !== payload.idcard)
           };
         })
       };
@@ -76,17 +76,18 @@ export const kanbanReducer = (state, action) => {
     //   };
 
     case 'UPDATE_DUAL_COLUMN':
+      console.log(payload)
       return {
         ...state,
         fases: state.fases.map(fase =>
-          fase.idfase == payload.sourceColumn.idfase ||
-          fase.idfase == payload.destColumn.idfase
+          fase.id == payload.sourceColumn.id ||
+          fase.id == payload.destColumn.id
             ? {
                 ...fase,
-                card_set:
-                  (fase.idfase == payload.sourceColumn.idfase &&
+                card_produtos_set:
+                  (fase.id == payload.sourceColumn.id &&
                     payload.updatedSourceItems) ||
-                  (fase.idfase == payload.destColumn.idfase &&
+                  (fase.id == payload.destColumn.id &&
                     payload.updatedDestItems)
               }
             : fase

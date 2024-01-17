@@ -1,4 +1,4 @@
-import KanbanProvider from "./KanbanProvider";
+import KanbanProvider from "../KanbanProvider";
 import KanbanContainer from "./KanbanContainer";
 
 function Products() {

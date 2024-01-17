@@ -9,6 +9,11 @@ body{
     margin: 0;
     padding: 0 !important;
 }
+.info-pipe{
+    width: 95%;
+    border: 1px solid #dddddd;
+    border-radius: 5px;
+}
 /* #horizontal-navigation-hover-normal-dark{
     justify-content: space-between !important;
 } */
