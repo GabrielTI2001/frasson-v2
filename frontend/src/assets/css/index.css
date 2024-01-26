@@ -11,9 +11,28 @@ body{
 }
 .info-pipe{
     width: 95%;
-    border: 1px solid #dddddd;
+    border: 1px solid #cfe0ed;
     border-radius: 5px;
+    border-width: 1px 1px 1px 4px;
 }
 /* #horizontal-navigation-hover-normal-dark{
     justify-content: space-between !important;
 } */
+/* #modalb1{
+    width: 95%;
+} */
+.modal-custom{
+    width: 95% !important;
+}
+.modal{
+    padding-left: 0 !important;
+}
+#infocard{
+    /* overflow-x: hidden; */
+    /* overflow-y: scroll; */
+    height: 90% !important;
+}
+.col2modal{
+    border-left: 1px solid #dddddd;
+    border-right: 1px solid #dddddd;;
+}

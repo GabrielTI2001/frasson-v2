@@ -7228,7 +7228,7 @@ fieldset:disabled .tox .tox-dialog__footer .tox-button--secondary,
 
 .modal {
   --falcon-modal-zindex: 1055;
-  --falcon-modal-width: 500px;
+  --falcon-modal-width: 1500px;
   --falcon-modal-padding: 1rem;
   --falcon-modal-margin: 0.5rem;
   --falcon-modal-color: ;

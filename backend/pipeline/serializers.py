@@ -19,14 +19,16 @@ class serializerDetalhamento_Servicos(serializers.ModelSerializer):
         fields = ['id', 'produto', 'detalhamento_servico']
 
 class serializerContratos_Servicos(serializers.ModelSerializer):
+    contratante = serializers.CharField(source='contratante.razao_social', required=False)
     class Meta:
         model = Contratos_Servicos
-        fields = '__all__'
+        fields = ['id', 'contratante', 'produto']
 
 class serializerCard_Produtos(serializers.ModelSerializer):
     detalhamento = serializerDetalhamento_Servicos(many=False, required=False)
     beneficiario = serializerCadastro_Pessoal(many=True, required=False)
     instituicao = serializerInstituicoes_Parceiras(many=False, required=False)
+    contrato = serializerContratos_Servicos(many=False, required=False)
     class Meta:
         model = Card_Produtos
         fields = '__all__'

@@ -51,6 +51,20 @@ export const kanbanReducer = (state, action) => {
         )
       };
 
+      case 'UPDATE_TASK_CARD':
+        return {
+          ...state,
+          fases: state.fases.map(fase =>
+            fase.idfase === payload.targetListId
+              ? { ...fase, card_produtos_set:fase.card_produtos_set.map( card =>
+                card.id === payload.cardid
+                ? payload.updatedCard
+                : card
+              ) }
+              : fase
+          )
+        };
+
     case 'REMOVE_TASK_CARD':
       return {
         ...state,
@@ -80,14 +94,14 @@ export const kanbanReducer = (state, action) => {
       return {
         ...state,
         fases: state.fases.map(fase =>
-          fase.id == payload.sourceColumn.id ||
-          fase.id == payload.destColumn.id
+          fase.id === payload.sourceColumn.id ||
+          fase.id === payload.destColumn.id
             ? {
                 ...fase,
                 card_produtos_set:
-                  (fase.id == payload.sourceColumn.id &&
+                  (fase.id === payload.sourceColumn.id &&
                     payload.updatedSourceItems) ||
-                  (fase.id == payload.destColumn.id &&
+                  (fase.id === payload.destColumn.id &&
                     payload.updatedDestItems)
               }
             : fase

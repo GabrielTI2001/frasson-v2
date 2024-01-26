@@ -5,6 +5,9 @@ import Avatar from '../../components/common/Avatar';
 import { Form, Button } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faPaperclip, faAt, faImage} from '@fortawesome/free-solid-svg-icons';
+library.add(faPaperclip, faAt, faImage );
 
 const ModalCommentContent = ({card}) => {
   return (
@@ -31,7 +34,7 @@ const ModalCommentContent = ({card}) => {
                   <li className="list-inline-item mr-1">
                     <Form.Group controlId="file-attachment">
                       <Form.Label className="link-600 px-2 transition-base rounded cursor-pointer mb-0">
-                        <FontAwesomeIcon icon="paperclip" />
+                        <FontAwesomeIcon icon={faPaperclip} />
                       </Form.Label>
                       <Form.Control type="file" className="d-none" />
                     </Form.Group>
@@ -41,13 +44,13 @@ const ModalCommentContent = ({card}) => {
                       to="#!"
                       className="link-600 px-2 transition-base rounded"
                     >
-                      <FontAwesomeIcon icon="at" />
+                      <FontAwesomeIcon icon={faAt} />
                     </Link>
                   </li>
                   <li className="list-inline-item mr-1">
                     <Form.Group controlId="file-image">
                       <Form.Label className="link-600 px-2 transition-base rounded cursor-pointer mb-0">
-                        <FontAwesomeIcon icon="image" />
+                        <FontAwesomeIcon icon={faImage} />
                       </Form.Label>
                       <Form.Control
                         type="file"

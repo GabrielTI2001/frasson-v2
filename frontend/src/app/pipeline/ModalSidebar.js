@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import { Nav } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Link } from 'react-router-dom';
-
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faCopy, faArrowRight, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
+library.add(faCopy, faArrowRight, faTrashAlt);
 const ModalSidebar = () => {
   // const [addToCardMenu] = useState([
   //   { icon: 'user', title: 'Members', link: '#!' },
@@ -12,9 +14,9 @@ const ModalSidebar = () => {
   // ]);
 
   const [actionMenu] = useState([
-    { icon: ['far', 'copy'], title: 'Copy', link: '#!' },
-    { icon: 'arrow-right', title: 'Move', link: '#!' },
-    { icon: 'trash-alt', title: 'Remove', link: '#!' }
+    { icon: faCopy, title: 'Copy', link: '#!' },
+    { icon: faArrowRight, title: 'Move', link: '#!' },
+    { icon: faTrashAlt, title: 'Remove', link: '#!' }
   ]);
   return (
     <>

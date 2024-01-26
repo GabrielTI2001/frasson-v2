@@ -11,6 +11,8 @@ import Products from "./pipeline/products/products.js";
 function FrassonRoutes() {
     return (
       <Routes>
+        <Route path="" element={<Landing/>}>
+        </Route>
         <Route path="/register" element={<Landing/>}>
             <Route path="" element={<Index/>}/>
             <Route path="machinery" element={<Machinery/>}/>
@@ -25,6 +27,8 @@ function FrassonRoutes() {
             <Route path="products" element={<Products/>}/>
         </Route>
         <Route path="/finances" element={<Landing/>}>
+        </Route>
+        <Route path="/home" element={<Landing/>}>
         </Route>
         <Route path="/analytics" element={<Landing/>}>
         </Route>
