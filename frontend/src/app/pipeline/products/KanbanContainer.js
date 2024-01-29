@@ -21,7 +21,6 @@ const KanbanContainer = () => {
   const fases = kanbanState.fases;
 
   const handleSubmit = listData => {
-    const listId = Math.max(...fases.map(fase => fase.id)) + 1;
     const newList = {
       pipe: kanbanState.pipe.id,
       descricao: listData.title,
@@ -58,11 +57,11 @@ const KanbanContainer = () => {
         containerRef.current.classList.add('chrome');
       }
     }
-  }, []);
+  });
 
   const getColumn = id => {
     if (fases){
-      return fases.find(fase => fase.id == Number(id))
+      return fases.find(fase => fase.id === Number(id))
     }
     else{
       return null;

@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { CloseButton, Col, Modal, Row } from 'react-bootstrap';
 import '../../assets/scss/custom.css';
 // import Background from 'components/common/Background';
@@ -13,20 +13,26 @@ import { faComment, faAlignLeft} from '@fortawesome/free-solid-svg-icons';
 import ModalCommentContent from './ModalCommentContent';
 // import ModalActivityContent from './ModalActivityContent';
 import AppContext, { PipeContext } from '../../context/Context';
+import api from '../../context/data';
 import ModalSidebar from './ModalSidebar';
 import EditForm from './EditForm';
 
 
 const KanbanModal = ({show}) => {
   const [showForm, setShowForm] = useState({'card':false,'data':false,'beneficiario':false});
+  const [formData, setFormData] = useState();
   const {kanbanState: {kanbanModal}, kanbanDispatch} = useContext(PipeContext);
   const {config: { isRTL }} = useContext(AppContext);
 
   const card = kanbanModal.modalContent;
-
   const handleClose = () => {
     kanbanDispatch({ type: 'TOGGLE_KANBAN_MODAL' });
   };
+
+  useEffect(() =>{
+
+  }, [kanbanModal])
+
   const handleEdit = (key) =>{
     setShowForm(prevState => ({
       ...prevState,
@@ -34,24 +40,62 @@ const KanbanModal = ({show}) => {
     }));
   }
   const handleSubmit = (formData) =>{
-    console.log(formData)
-    const updatedCard = {
-      id: card.id,
-      detalhamento: formData.detalhamento ? formData.detalhamento : card.detalhamento,
-      beneficiario: formData.beneficiario ? formData.beneficiario : card.beneficiario,
-      instituicao: formData.instituicao ? formData.instituicao : card.instituicao,
-      contrato: formData.contrato ? formData.contrato : card.contrato,
-      uuid: card.uuid,
-      card: formData.card ? formData.card : card.card,
-      valor_operacao: formData.valor_operacao ? formData.valor_operacao : card.valor_operacao,
-      faturamento_estimado: formData.faturamento_estimado ? formData.faturamento_estimado : card.faturamento_estimado,
-      card_url: card.url,
-      created_at: card.created_at,
-      updated_at: card.updated_at,
-      phase: card.phase   
+    const updatedFields = {}
+    const valorescard = card
+    // if (formData.detalhamento !== card.detalhamento) {
+    //   updatedFields.detalhamento = formData.detalhamento.id;
+    // }
+    if (formData.beneficiario){
+      valorescard.beneficiario = formData.beneficiario
+      const ids = formData.beneficiario.map(b =>b.id);
+      updatedFields.beneficiario = ids;
+      api.put(`pipeline/cards/${card.id}/update_beneficiarios/`, updatedFields)
+      .then((response) => {
+        kanbanDispatch({
+          type: 'UPDATE_TASK_CARD',
+          payload: {
+            updatedCard: valorescard,
+            targetListId: card.phase,
+            id: card.id
+          }
+        })
+      })
+      .catch((erro) => {
+        console.error('erro: '+erro);
+      })
     }
-    console.log(updatedCard)
-    setShowForm({...showForm, 'beneficiario':false})
+    else{
+      if (formData.card) {
+        valorescard.card = formData.card
+        updatedFields.card = formData.card;
+      }
+      if (formData.valor_operacao) {
+        valorescard.valor_operacao = formData.valor_operacao;
+        updatedFields.valor_operacao = formData.valor_operacao;
+      }
+      if (formData.faturamento_estimado) {
+        valorescard.faturamento_estimado = formData.faturamento_estimado;
+        updatedFields.faturamento_estimado = formData.faturamento_estimado;
+      }
+      if (updatedFields){
+        api.put(`pipeline/cards/produtos/${card.id}/`, updatedFields)
+        .then((response) => {
+          kanbanDispatch({
+            type: 'UPDATE_TASK_CARD',
+            payload: {
+              updatedCard: valorescard,
+              targetListId: card.phase,
+              id: card.id
+            }
+          })
+        })
+        .catch((erro) => {
+          console.error('erro: '+erro);
+        })
+      }
+    }
+    kanbanDispatch({ type: 'OPEN_KANBAN_MODAL', payload: {card: valorescard}});
+    setShowForm({...showForm, 'card':false,'data':false,'beneficiario':false})
   }
 
   if (card){
@@ -102,7 +146,7 @@ const KanbanModal = ({show}) => {
                   </span>
                 {card.beneficiario && card.beneficiario.map ((b) => (
                   !showForm['beneficiario'] && (
-                    <div className='p-1 row ms-2 info-pipe' key={b.id}>
+                    <div className='p-1 mb-1 row ms-2 info-pipe' key={b.id}>
                       <label className='row fw-bold'>{b.razao_social}</label>
                       <span className='row fs-xs'>CPF/CNPJ:</span>
                       <label className='row fs-xs'>{b.cpf_cnpj}</label>

@@ -1,5 +1,6 @@
 export const kanbanReducer = (state, action) => {
   const { type, payload } = action;
+
   switch (type) {
     case 'SET_DATA':
       return {
@@ -9,13 +10,7 @@ export const kanbanReducer = (state, action) => {
         fases: action.payload.fases
         // ... outras propriedades conforme necessário
       };
-    case 'SET_DATA2':
-      return {
-        ...state,
-        pipes: action.payload.pipes,
-        pipe: action.payload.pipe,
-          // ... outras propriedades conforme necessário
-      };
+
     case 'OPEN_KANBAN_MODAL':
       return {
         ...state,
@@ -51,20 +46,19 @@ export const kanbanReducer = (state, action) => {
         )
       };
 
-      case 'UPDATE_TASK_CARD':
-        return {
-          ...state,
-          fases: state.fases.map(fase =>
-            fase.idfase === payload.targetListId
-              ? { ...fase, card_produtos_set:fase.card_produtos_set.map( card =>
-                card.id === payload.cardid
-                ? payload.updatedCard
-                : card
-              ) }
-              : fase
-          )
-        };
-
+    case 'UPDATE_TASK_CARD':
+      return {
+        ...state,
+        fases: state.fases.map(fase =>
+          fase.id === payload.targetListId ? 
+          {...fase, card_produtos_set:fase.card_produtos_set.map( card =>
+              card.id === payload.id
+              ? payload.updatedCard
+              : card
+              )}
+          : fase
+          )  
+      };
     case 'REMOVE_TASK_CARD':
       return {
         ...state,
@@ -90,7 +84,6 @@ export const kanbanReducer = (state, action) => {
     //   };
 
     case 'UPDATE_DUAL_COLUMN':
-      console.log(payload)
       return {
         ...state,
         fases: state.fases.map(fase =>

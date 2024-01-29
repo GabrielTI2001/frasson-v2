@@ -26,7 +26,7 @@ class serializerContratos_Servicos(serializers.ModelSerializer):
 
 class serializerCard_Produtos(serializers.ModelSerializer):
     detalhamento = serializerDetalhamento_Servicos(many=False, required=False)
-    beneficiario = serializerCadastro_Pessoal(many=True, required=False)
+    beneficiario = serializerCadastro_Pessoal(many=True, required=False, read_only=False)
     instituicao = serializerInstituicoes_Parceiras(many=False, required=False)
     contrato = serializerContratos_Servicos(many=False, required=False)
     class Meta:

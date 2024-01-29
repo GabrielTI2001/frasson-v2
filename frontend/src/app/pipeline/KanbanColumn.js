@@ -53,9 +53,8 @@ const KanbanColumn = ({ kanbanColumnItem}) => {
     const timeout = setTimeout(() => {
       formViewRef.current.scrollIntoView({ behavior: 'smooth' });
     }, 500);
-
     return clearTimeout(timeout);
-  }, [showForm]);
+  }, [showForm, fases]);
 
   return (
     <div className={classNames('kanban-column', { 'form-added': showForm })}>

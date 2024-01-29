@@ -14,14 +14,15 @@ const EditForm = ({
 }) => {
   const [formData, setFormData] = useState({});
   const [optsBeneficiario, setOptsBeneficiario] = useState([]);
+  const [defaultselected, setdefaultSelected] = useState();
   const inputRef = useRef(null);
 
   const fetchData = async () => {
     try {
       const apiUrl = `http://localhost:8000/pipeline/beneficiarios/`;
       const response = await fetch(apiUrl);
-      const data = await response.json();
-      const options = data.map(b =>({
+      const dataapi = await response.json();
+      const options = dataapi.map(b =>({
         value: b.id,
         label: b.razao_social,
         cpf_cnpj: b.cpf_cnpj
@@ -30,12 +31,18 @@ const EditForm = ({
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     }
+    if (fieldkey == 'beneficiario'){
+      const ids = data.map(b => ({value: b.id, label: b.razao_social, cpf_cnpj: b.cpf_cnpj}));
+      setdefaultSelected(ids)
+    }
   };
 
   useEffect(() => {
     if (show) {
+      if (fieldkey !== 'beneficiario'){
+        inputRef.current.focus();
+      }
       fetchData()
-      inputRef.current.focus();
     }
   }, [show]); 
 
@@ -54,7 +61,7 @@ const EditForm = ({
             return handleSubmit(formData);
           }}
         >
-        {fieldkey == 'card' &&(
+        {fieldkey === 'card' &&(
           <Form.Control
             type='text'
             rows={2}
@@ -63,7 +70,7 @@ const EditForm = ({
             onChange={({ target }) =>
               setFormData({ ...formData, card: target.value })
             }
-            value={data}
+            defaultValue={data}
           />
           )}
           {fieldkey == 'data' &&(
@@ -78,21 +85,21 @@ const EditForm = ({
             value={data.slice(0,10)}
             />
           )}
-          {fieldkey == 'beneficiario' &&(
-            <Select options={optsBeneficiario} ref={inputRef} isMulti={true} 
+          {fieldkey == 'beneficiario' &&( defaultselected &&
+            <Select options={optsBeneficiario} ref={inputRef} isMulti={true} defaultValue={defaultselected}
             onChange={(selectedOptions ) => {
-              console.log(selectedOptions)
               const selected = selectedOptions.map(s => ({
                 id: s.value,
                 razao_social: s.label,
                 cpf_cnpj: s.cpf_cnpj
               }))
-              setFormData((prevFormData) => ({
+
+              selected.length > 0 && setFormData((prevFormData) => ({
                 ...prevFormData,
                 beneficiario: selected
               }));
             }
-          }/>
+          } className='mb-1'/>
           )}
             <Row className="gx-2 w-50 ms-2">
             <Button
@@ -101,7 +108,7 @@ const EditForm = ({
               className="col w-30 fs-xs p-0 me-1"
               type="submit"
             >
-              Add
+              <span>Atualizar</span>
             </Button>
             <Button
               variant="outline-secondary"
@@ -114,7 +121,7 @@ const EditForm = ({
                 [fieldkey]: !prevState[fieldkey]
               }))}
             >
-              Cancel
+              <span>Cancelar</span>
             </Button>
           </Row>  
         </Form>

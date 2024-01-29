@@ -9,5 +9,7 @@ router.register(r'fases', views.FasesView)
 router.register(r'beneficiarios', views.BeneficiariosView)
 router.register(r'cards/produtos', views.Card_ProdutosView)
 
-urlpatterns = []
+urlpatterns = [
+    path('cards/<int:pk>/update_beneficiarios/', views.Card_BeneficiariosView.as_view({'put': 'update_beneficiarios'}), name='update_beneficiarios'),
+]
 urlpatterns += router.urls
