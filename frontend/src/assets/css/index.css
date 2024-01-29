@@ -21,6 +21,14 @@ body{
 /* #modalb1{
     width: 95%;
 } */
+.modal-editar{
+    opacity: 0;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+.modal-editar:hover{
+    opacity: 0.7;
+}
 .modal-custom{
     width: 95% !important;
 }

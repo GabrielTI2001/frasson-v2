@@ -7,8 +7,6 @@ import ModalMediaContent from './ModalMediaContent';
 // import GroupMember from './GroupMember';
 // import { members } from 'data/kanban';
 // import ModalLabelContent from './ModalLabelContent';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faComment, faAlignLeft} from '@fortawesome/free-solid-svg-icons';
 // import ModalAttachmentContent from './ModalAttachmentContent';
 import ModalCommentContent from './ModalCommentContent';
 // import ModalActivityContent from './ModalActivityContent';
@@ -20,9 +18,7 @@ import EditForm from './EditForm';
 
 const KanbanModal = ({show}) => {
   const [showForm, setShowForm] = useState({'card':false,'data':false,'beneficiario':false});
-  const [formData, setFormData] = useState();
   const {kanbanState: {kanbanModal}, kanbanDispatch} = useContext(PipeContext);
-  const {config: { isRTL }} = useContext(AppContext);
 
   const card = kanbanModal.modalContent;
   const handleClose = () => {
@@ -142,7 +138,7 @@ const KanbanModal = ({show}) => {
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold fs-sm'>Beneficiário*</span>
                 <span className='modal-editar ms-2 fs-xs' onClick={() => handleEdit('beneficiario')}>
-                  <i className='fa-solid fa-pencil fs-xs'></i>Editar
+                  <i className='modal-editar fa-solid fa-pencil fs-xs'></i>Editar
                   </span>
                 {card.beneficiario && card.beneficiario.map ((b) => (
                   !showForm['beneficiario'] && (
@@ -173,7 +169,7 @@ const KanbanModal = ({show}) => {
               </div>
               <div className="rounded-top-lg px-1">
                 <div className='fw-bold fs-sm'>Data de Abertura*
-                  <span className='ms-2 fs-xs fw-normal' onClick={() => handleEdit('data')}><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
+                  <span className='modal-editar ms-2 fs-xs fw-normal' onClick={() => handleEdit('data')}><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
                 </div>
                 {card.created_at && (
                   !showForm['data'] &&(
@@ -190,7 +186,7 @@ const KanbanModal = ({show}) => {
               </div>
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold'>Instituição Vinculada*</span>
-                <span className='ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
+                <span className='modal-editar ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
                 {card.instituicao && (
                     <div className='p-1 row ms-2 info-pipe'>
                       <label className='row fw-bold'>{card.instituicao.razao_social}</label>
@@ -201,7 +197,7 @@ const KanbanModal = ({show}) => {
               </div>
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold'>Contrato*</span>
-                <span className='ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
+                <span className='modal-editar ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
                 {card.contrato && (
                     <div className='p-1 row ms-2 info-pipe'>
                       <label className='row fw-bold'>{card.contrato.contratante}</label>

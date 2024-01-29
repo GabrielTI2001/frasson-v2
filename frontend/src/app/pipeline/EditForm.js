@@ -1,8 +1,7 @@
 import classNames from 'classnames';
-import PropTypes from 'prop-types';
 import Select from 'react-select';
 import React, { useEffect, useRef, useState } from 'react';
-import { Button, Col, Form, Row } from 'react-bootstrap';
+import { Button, Form, Row } from 'react-bootstrap';
 
 const EditForm = ({
   onSubmit: handleSubmit,
@@ -31,7 +30,7 @@ const EditForm = ({
     } catch (error) {
       console.error('Erro ao carregar dados:', error);
     }
-    if (fieldkey == 'beneficiario'){
+    if (fieldkey === 'beneficiario'){
       const ids = data.map(b => ({value: b.id, label: b.razao_social, cpf_cnpj: b.cpf_cnpj}));
       setdefaultSelected(ids)
     }
@@ -73,7 +72,7 @@ const EditForm = ({
             defaultValue={data}
           />
           )}
-          {fieldkey == 'data' &&(
+          {fieldkey === 'data' &&(
             <Form.Control
             type='date'
             rows={2}
@@ -85,7 +84,7 @@ const EditForm = ({
             value={data.slice(0,10)}
             />
           )}
-          {fieldkey == 'beneficiario' &&( defaultselected &&
+          {fieldkey === 'beneficiario' &&( defaultselected &&
             <Select options={optsBeneficiario} ref={inputRef} isMulti={true} defaultValue={defaultselected}
             onChange={(selectedOptions ) => {
               const selected = selectedOptions.map(s => ({
