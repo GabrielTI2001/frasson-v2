@@ -1,23 +1,24 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { CloseButton, Col, Modal, Row } from 'react-bootstrap';
-import '../../assets/scss/custom.css';
+import '../../../assets/scss/custom.css';
 // import Background from 'components/common/Background';
 // import { Link } from 'react-router-dom';
-import ModalMediaContent from './ModalMediaContent';
+import ModalMediaContent from '../ModalMediaContent';
 // import GroupMember from './GroupMember';
 // import { members } from 'data/kanban';
 // import ModalLabelContent from './ModalLabelContent';
 // import ModalAttachmentContent from './ModalAttachmentContent';
-import ModalCommentContent from './ModalCommentContent';
+import ModalCommentContent from '../ModalCommentContent';
 // import ModalActivityContent from './ModalActivityContent';
-import AppContext, { PipeContext } from '../../context/Context';
-import api from '../../context/data';
-import ModalSidebar from './ModalSidebar';
+import { PipeContext } from '../../../context/Context';
+import api from '../../../context/data';
+import ModalSidebar from '../ModalSidebar';
 import EditForm from './EditForm';
 
 
 const KanbanModal = ({show}) => {
-  const [showForm, setShowForm] = useState({'card':false,'data':false,'beneficiario':false});
+  const [showForm, setShowForm] = useState({'card':false,'data':false,'beneficiario':false, 
+    'detalhamento': false, 'instituicao': false});
   const {kanbanState: {kanbanModal}, kanbanDispatch} = useContext(PipeContext);
 
   const card = kanbanModal.modalContent;
@@ -36,11 +37,9 @@ const KanbanModal = ({show}) => {
     }));
   }
   const handleSubmit = (formData) =>{
+    console.log(formData)
     const updatedFields = {}
-    const valorescard = card
-    // if (formData.detalhamento !== card.detalhamento) {
-    //   updatedFields.detalhamento = formData.detalhamento.id;
-    // }
+    const valorescard = {...card}
     if (formData.beneficiario){
       valorescard.beneficiario = formData.beneficiario
       const ids = formData.beneficiario.map(b =>b.id);
@@ -73,7 +72,16 @@ const KanbanModal = ({show}) => {
         valorescard.faturamento_estimado = formData.faturamento_estimado;
         updatedFields.faturamento_estimado = formData.faturamento_estimado;
       }
+      if (formData.detalhamento) {
+        valorescard.info_detalhamento = formData.detalhamento;
+        updatedFields.detalhamento = formData.detalhamento.id;
+      }
+      if (formData.instituicao) {
+        valorescard.info_instituicao = formData.instituicao;
+        updatedFields.instituicao = formData.instituicao.id;
+      }
       if (updatedFields){
+        console.log(updatedFields)
         api.put(`pipeline/cards/produtos/${card.id}/`, updatedFields)
         .then((response) => {
           kanbanDispatch({
@@ -91,7 +99,8 @@ const KanbanModal = ({show}) => {
       }
     }
     kanbanDispatch({ type: 'OPEN_KANBAN_MODAL', payload: {card: valorescard}});
-    setShowForm({...showForm, 'card':false,'data':false,'beneficiario':false})
+    setShowForm({...showForm, 'card':false,'data':false,'beneficiario':false,'detalhamento':false, 
+    'instituicao':false, 'contrato':false})
   }
 
   if (card){
@@ -119,7 +128,7 @@ const KanbanModal = ({show}) => {
               <div className="rounded-top-lg px-1">
                 <div className='fw-bold fs-sm'>Card*
                   <span className='modal-editar ms-2 fs-xs fw-normal' onClick={() => handleEdit('card')}>
-                    <i className='fa-solid fa-pencil fs-xs'></i>Editar
+                    <i className='fa-solid fa-pencil fs-xs me-1'></i>Editar
                   </span>
                 </div>
                 {card.card && (
@@ -138,7 +147,7 @@ const KanbanModal = ({show}) => {
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold fs-sm'>Beneficiário*</span>
                 <span className='modal-editar ms-2 fs-xs' onClick={() => handleEdit('beneficiario')}>
-                  <i className='modal-editar fa-solid fa-pencil fs-xs'></i>Editar
+                  <i className='fa-solid fa-pencil fs-xs me-1'></i>Editar
                   </span>
                 {card.beneficiario && card.beneficiario.map ((b) => (
                   !showForm['beneficiario'] && (
@@ -158,18 +167,28 @@ const KanbanModal = ({show}) => {
               </div>
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold fs-sm'>Detalhamento da Demanda*</span>
-                <span className='modal-editar ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
-                {card.detalhamento && (
+                <span className='modal-editar ms-2 fs-xs' onClick={() => handleEdit('detalhamento')}>
+                  <i className='fa-solid fa-pencil fs-xs me-1'></i>Editar</span>
+                {card.info_detalhamento && (
+                  !showForm['detalhamento'] && (
                     <div className='p-1 row ms-2 info-pipe'>
-                      <label className='row fw-bold'>{card.detalhamento.detalhamento_servico}</label>
+                      <label className='row fw-bold'>{card.info_detalhamento.detalhamento_servico}</label>
                       <span className='row fs-xs'>Produto:</span>
-                      <label className='row fs-xs'>{card.detalhamento.produto}</label>
+                      <label className='row fs-xs'>{card.info_detalhamento.produto}</label>
                     </div>
-                  )}
+                  ))}
+                <EditForm 
+                  onSubmit={handleSubmit} 
+                  show={showForm['detalhamento']}
+                  fieldkey='detalhamento'
+                  setShow={setShowForm}
+                  data={card.info_detalhamento}
+                />
               </div>
               <div className="rounded-top-lg px-1">
                 <div className='fw-bold fs-sm'>Data de Abertura*
-                  <span className='modal-editar ms-2 fs-xs fw-normal' onClick={() => handleEdit('data')}><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
+                  <span className='modal-editar ms-2 fs-xs fw-normal' onClick={() => handleEdit('data')}>
+                    <i className='fa-solid fa-pencil fs-xs me-1'></i>Editar</span>
                 </div>
                 {card.created_at && (
                   !showForm['data'] &&(
@@ -186,25 +205,42 @@ const KanbanModal = ({show}) => {
               </div>
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold'>Instituição Vinculada*</span>
-                <span className='modal-editar ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
-                {card.instituicao && (
+                <span className='modal-editar ms-2 fs-xs' onClick={() => handleEdit('instituicao')}>
+                  <i className='fa-solid fa-pencil fs-xs me-1'></i>Editar</span>
+                {card.info_instituicao && (
+                  !showForm['instituicao'] && (
                     <div className='p-1 row ms-2 info-pipe'>
-                      <label className='row fw-bold'>{card.instituicao.razao_social}</label>
+                      <label className='row fw-bold'>{card.info_instituicao.razao_social}</label>
                       <span className='row fs-xs'>Identificação:</span>
-                      <label className='row fs-xs'>{card.instituicao.identificacao}</label>
+                      <label className='row fs-xs'>{card.info_instituicao.identificacao}</label>
                     </div>
-                  )}
+                  ))}
+                <EditForm 
+                  onSubmit={handleSubmit} 
+                  show={showForm['instituicao']}
+                  fieldkey='instituicao'
+                  setShow={setShowForm}
+                  data={card.info_instituicao}
+                />
               </div>
               <div className="rounded-top-lg px-1 py-2">
                 <span className='fw-bold'>Contrato*</span>
-                <span className='modal-editar ms-2 fs-xs'><i className='fa-solid fa-pencil fs-xs'></i>Editar</span>
-                {card.contrato && (
+                <span className='modal-editar ms-2 fs-xs' onClick={() => handleEdit('contrato')}>
+                  <i className='fa-solid fa-pencil fs-xs me-1'></i>Editar</span>
+                {card.info_contrato && ( !showForm['contrato'] && (
                     <div className='p-1 row ms-2 info-pipe'>
-                      <label className='row fw-bold'>{card.contrato.contratante}</label>
+                      <label className='row fw-bold'>{card.info_contrato.contratante}</label>
                       <span className='row fs-xs'>Produto:</span>
-                      <label className='row fs-xs'>{card.contrato.produto}</label>
+                      <label className='row fs-xs'>{card.info_contrato.produto}</label>
                     </div>
-                  )}
+                  ))}
+                <EditForm 
+                  onSubmit={handleSubmit} 
+                  show={showForm['contrato']}
+                  fieldkey='contrato'
+                  setShow={setShowForm}
+                  data={card.info_contrato}
+                />
               </div>
               </Col>
               <Col lg={4} className='col2modal'>

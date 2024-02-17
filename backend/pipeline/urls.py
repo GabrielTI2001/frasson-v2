@@ -7,6 +7,9 @@ router = routers.DefaultRouter()
 router.register(r'pipes/produtos', views.PipeView)
 router.register(r'fases', views.FasesView)
 router.register(r'beneficiarios', views.BeneficiariosView)
+router.register(r'detalhamentos', views.Detalhamento_ServicosView)
+router.register(r'instituicoes', views.Instituicoes_ParceirasView)
+router.register(r'contratos', views.ContratosView)
 router.register(r'cards/produtos', views.Card_ProdutosView)
 
 urlpatterns = [

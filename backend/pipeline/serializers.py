@@ -8,7 +8,7 @@ class serializerCadastro_Pessoal(serializers.ModelSerializer):
         fields = ['id', 'razao_social', 'cpf_cnpj']
 
 class serializerInstituicoes_Parceiras(serializers.ModelSerializer):
-    razao_social = serializers.CharField(source='instituicao.razao_social', required=False)
+    razao_social = serializers.CharField(source='instituicao.razao_social', required=False, read_only=True)
     class Meta:
         model = Instituicoes_Parceiras
         fields = ['id', 'razao_social', 'identificacao']
@@ -19,19 +19,46 @@ class serializerDetalhamento_Servicos(serializers.ModelSerializer):
         fields = ['id', 'produto', 'detalhamento_servico']
 
 class serializerContratos_Servicos(serializers.ModelSerializer):
-    contratante = serializers.CharField(source='contratante.razao_social', required=False)
+    contratante = serializers.CharField(source='contratante.razao_social', required=False, read_only=True)
     class Meta:
         model = Contratos_Servicos
         fields = ['id', 'contratante', 'produto']
 
 class serializerCard_Produtos(serializers.ModelSerializer):
-    detalhamento = serializerDetalhamento_Servicos(many=False, required=False)
     beneficiario = serializerCadastro_Pessoal(many=True, required=False, read_only=False)
-    instituicao = serializerInstituicoes_Parceiras(many=False, required=False)
-    contrato = serializerContratos_Servicos(many=False, required=False)
+    info_contrato = serializers.SerializerMethodField()
+    info_instituicao = serializers.SerializerMethodField()
+    info_detalhamento = serializers.SerializerMethodField()
     class Meta:
         model = Card_Produtos
         fields = '__all__'
+    def get_info_instituicao(self, obj):
+        if obj.instituicao:
+            return {
+                'id': obj.instituicao.id,
+                'razao_social': obj.instituicao.instituicao.razao_social,
+                'identificacao': obj.instituicao.identificacao,
+            }
+        else:
+            return None
+    def get_info_detalhamento(self, obj):
+        if obj.detalhamento:
+            return {
+                'id': obj.detalhamento.id,
+                'detalhamento_servico': obj.detalhamento.detalhamento_servico,
+                'produto': obj.detalhamento.produto,
+            }
+        else:
+            return None
+    def get_info_contrato(self, obj):
+        if obj.contrato:
+            return {
+                'id': obj.contrato.id,
+                'contratante': obj.contrato.contratante.razao_social,
+                'produto': obj.contrato.produto,
+            }
+        else:
+            return None
 
 class serializerFase(serializers.ModelSerializer):
     card_produtos_set = serializerCard_Produtos(many=True, read_only=True, required=False)

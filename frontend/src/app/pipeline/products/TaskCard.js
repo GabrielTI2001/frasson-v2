@@ -4,7 +4,7 @@ import { Card, Dropdown} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import SoftBadge from 'components/common/SoftBadge';
 import { Draggable } from 'react-beautiful-dnd';
-import AppContext, { PipeContext } from '../../context/Context';
+import AppContext, { PipeContext } from '../../../context/Context';
 // import api from 'data/kanban2';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
@@ -64,7 +64,7 @@ const TaskCard = ({
   index
 }) => {
   const { kanbanDispatch} = useContext(PipeContext);
-  {/*const image = attachments && attachments.find(item => item.type === 'image');*/}
+  /*const image = attachments && attachments.find(item => item.type === 'image');*/
   const handleModalOpen = () => {
     kanbanDispatch({ type: 'OPEN_KANBAN_MODAL', payload: {card: task} });
   };
@@ -93,10 +93,10 @@ const TaskCard = ({
               <div className="position-relative">
                 <TaskDropMenu id={task.id} />
               </div>
-              {task.detalhamento && (
+              {task.info_detalhamento && (
                 <h6 style={{'fontSize':'16px'}}
                   className="mb-2 fw-medium font-sans-serif fs-9 stretched-link"
-                  dangerouslySetInnerHTML={{ __html: task.detalhamento.produto }}/>
+                  dangerouslySetInnerHTML={{ __html: task.info_detalhamento.detalhamento_servico }}/>
               )}
               <div className='mb-1'>
                 <label className='mb-0'>Card</label><br></br>
@@ -116,10 +116,6 @@ const TaskCard = ({
                 <label className='mb-0'>Valor Operação</label><br></br>
                 <span>{task.valor_operacao}</span>
               </div>
-              {/* <div className='mb-1'>
-                  <label className='mb-0'>Vencimento em </label>
-                  <span> {task.prazovenc}</span>
-              </div> */}
             </Card.Body>
           </Card>
         </div>

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 // import PropTypes from 'prop-types';
 import KanbanColumnHeader from './KanbanColumnHeader';
-import TaskCard from './TaskCard';
+import TaskCard from './products/TaskCard';
 // import AddAnotherForm from './AddAnotherForm';
 // import IconButton from 'components/common/IconButton';
 import { Droppable } from 'react-beautiful-dnd';
