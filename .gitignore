@@ -12,6 +12,7 @@ env/
 
 ### React ###
 frontend/node_modules
+frontend2/node_modules
 frontend/.pnp
 frontend/.pnp.js
 
